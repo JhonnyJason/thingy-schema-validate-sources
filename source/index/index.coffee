@@ -10,9 +10,11 @@ export BOOLEAN = 6
 export ARRAY = 7
 export NUMBERORNULL = 8
 export OBJECT = 9
+export OBJECTORUNDEFINED = 10
+export NONNULLOBJECT = 11
 
 ############################################################
-assertionFunctions = new Array(10)
+assertionFunctions = new Array(12)
 
 ############################################################
 #region hexHelpers
@@ -21,7 +23,7 @@ hexMap = {}
 hexMap[c] = true for c in hexChars
 
 #endregion
-
+Was
 ############################################################
 #region all Assertion Functions
 assertionFunctions[NUMBER] = (arg) ->
@@ -72,6 +74,16 @@ assertionFunctions[OBJECT] = (arg) ->
     if typeof arg != "object" then throw new Error("Not an Object!")
     return
 
+assertionFunctions[OBJECTORUNDEFINED] = (arg) ->
+    if typeof arg == "undefined" then return
+    if typeof arg != "object" then throw new Error("Not an Object!")
+    return
+
+assertionFunctions[NONNULLOBJECT] = (arg) ->
+    if arg == null then throw new Error("Is null!")
+    if typeof arg != "object" then throw new Error("Not an Object!")
+    return
+
 #endregion
 
 ############################################################
@@ -79,7 +91,7 @@ export validate = (obj, schema) ->
     objKeys = Object.keys(obj)
     argKeys = Object.keys(schema)
     
-    if objKeys.length != argKeys.length then throw new Error("Error: The Number of parameters in the obj, did not match the expected number. #{argKeys.length} vs #{objKeys.length}")
+    if objKeys.length != argKeys.length then throw new Error("Error: The Number of parameters in the obj, did not match the expected number. Expected #{argKeys.length} vs #{objKeys.length} present")
     
     for key,i in objKeys
         if key != argKeys[i] then throw new Error("Error: parameter @ index: #{i} had wrong key! expected: '#{argKeys[i]}'  detected: '#{key}'")
