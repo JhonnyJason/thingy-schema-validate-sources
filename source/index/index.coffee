@@ -23,7 +23,7 @@ hexMap = {}
 hexMap[c] = true for c in hexChars
 
 #endregion
-Was
+
 ############################################################
 #region all Assertion Functions
 assertionFunctions[NUMBER] = (arg) ->
