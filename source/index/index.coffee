@@ -134,16 +134,19 @@ assertionFunctions[ARRAYORNULL] = (arg) ->
 
 ############################################################
 export validate = (obj, schema) ->
+    if !schema? then throw new Error("No schema provided!")
+    if !obj? then throw new Error("No Object to validate!")
+    
     objKeys = Object.keys(obj)
     argKeys = Object.keys(schema)
     
-    if objKeys.length != argKeys.length then throw new Error("Error: The Number of parameters in the obj, did not match the expected number. Expected: #{argKeys.length} Present: #{objKeys.length} ")
+    if objKeys.length != argKeys.length then throw new Error("The Number of parameters in the obj, did not match the expected number. Expected: #{argKeys.length} Present: #{objKeys.length} ")
     
     for key,i in objKeys
-        if key != argKeys[i] then throw new Error("Error: parameter @ index: #{i} had wrong key! expected: '#{argKeys[i]}'  detected: '#{key}'")
+        if key != argKeys[i] then throw new Error("Parameter @ index: #{i} had wrong key! expected: '#{argKeys[i]}'  detected: '#{key}'")
 
     for label,arg of obj
         type = schema[label]
         try assertionFunctions[type](arg)
-        catch err then throw new Error("Error: unexpected format of parameter '#{label}'! #{err.message}")
+        catch err then throw new Error("Unexpected format of parameter '#{label}'! #{err.message}")
     return
