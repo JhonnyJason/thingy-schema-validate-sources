@@ -822,17 +822,6 @@ export getErrorMessage = (errorCode) ->
     else return msg
 
 ############################################################
-## takes a validatorFunction
-##    this function cannot overwrite predefined types 
-## returns the new enumeration number for the defined Type
-export defineNewType = (validatorFunc) ->
-    if locked then throw new Error("We are closed!")    
-    newTypeId = typeValidatorFunctions.length
-    if newTypeId >= 1000 then throw new Error("Exeeding type limit!")
-    typeValidatorFunctions[newTypeId] = validatorFunc
-    return newTypeId
-
-############################################################
 ## takes errorCode and errorMessage
 ##     this function cannot overwrite predefined ErrorCodes
 ## returns the new errorCode for the defined Error
@@ -843,6 +832,17 @@ export defineNewError = (errorMessage) ->
     if typeof errorMessage != "string" then throw new Error("ErrorMessage not a String!")
     ErrorToMessage[errorCode] = errorMessage
     return errorCode
+
+############################################################
+## takes a validatorFunction
+##    this function cannot overwrite predefined types 
+## returns the new enumeration number for the defined Type
+export defineNewType = (validatorFunc) ->
+    if locked then throw new Error("We are closed!")    
+    newTypeId = typeValidatorFunctions.length
+    if newTypeId >= 1000 then throw new Error("Exeeding type limit!")
+    typeValidatorFunctions[newTypeId] = validatorFunc
+    return newTypeId
 
 ############################################################
 ## takes a type and validatorFunc
